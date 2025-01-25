@@ -31,7 +31,7 @@ jobs:
         run: pnpm start
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: actions/checkout@v2
         with:
-          github_token: ${{ secrets.ACTION_TOKEN }}
-          publish_dir: ./dist
+          lfs: true
+          token: ${{ secrets.ACTION_TOKEN }}
