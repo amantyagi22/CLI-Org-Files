@@ -1,0 +1,13 @@
+{
+  "name": "github-together",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "organise": "node server.js files_make_folder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
