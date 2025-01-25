@@ -14,5 +14,8 @@
     "chalk": "^5.4.1",
     "commander": "^13.1.0",
     "inquirer": "^12.3.2"
+  },
+  "bin": {
+    "org-file": "./server.js"
   }
 }
