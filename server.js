@@ -1,10 +1,15 @@
 const fs = require('fs');
 const path = require('path');
+const { Command } = require('commander');
 
-const organizeFiles = (directoryPath) => {
+const program = new Command();
+
+const organizeFiles = async (directoryPath) => {
+    const chalk = (await import('chalk')).default;
+
     fs.readdir(directoryPath, (err, files) => {
         if (err) {
-            console.error('Unable to read directory:', err);
+            console.error(chalk.red('Unable to read directory:'), err);
             return;
         }
 
@@ -21,43 +26,35 @@ const organizeFiles = (directoryPath) => {
 
             fs.rename(oldPath, newPath, (err) => {
                 if (err) {
-                    console.error('Error moving file:', err);
+                    console.error(chalk.red('Error moving file:'), err);
                 }
             });
         });
+
+        console.log(chalk.green('Files organized successfully!'));
     });
 };
 
-const directoryPath = process.argv[2];
-if (!directoryPath) {
-    console.error('Please provide a directory path');
-    process.exit(1);
-}
+const promptForDirectory = async () => {
+    const inquirer = (await import('inquirer')).default;
 
-organizeFiles(directoryPath);
-fs.readdir(directoryPath, (err, files) => {
-    if (err) {
-        console.error('Unable to read directory:', err);
-        return;
-    }
-
-    files.sort((a, b) => a.localeCompare(b));
-
-    files.forEach(file => {
-        const ext = path.extname(file).slice(1);
-        const extDir = path.join(directoryPath, ext);
-
-        if (!fs.existsSync(extDir)) {
-            fs.mkdirSync(extDir);
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'directory',
+            message: 'Please provide a directory path:',
+            validate: (input) => input ? true : 'Directory path cannot be empty'
         }
-
-        const oldPath = path.join(directoryPath, file);
-        const newPath = path.join(extDir, file);
-
-        fs.rename(oldPath, newPath, (err) => {
-            if (err) {
-                console.error('Error moving file:', err);
-            }
-        });
+    ]).then(answers => {
+        organizeFiles(answers.directory);
     });
-});
+};
+
+program
+    .version('1.0.0')
+    .description('Organize files in a directory by their extensions')
+    .action(() => {
+        promptForDirectory();
+    });
+
+program.parse(process.argv);
