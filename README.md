@@ -16,8 +16,8 @@ This project is a CLI tool that helps in organizing files in a specified directo
 2. Install the dependencies using `npm install`.
 
 ```sh
-git clone <repository-url>
-cd github-together
+git clone https://github.com/amantyagi22/CLI-Org-Files
+cd CLI-Org-Files
 npm install
 ```
 
