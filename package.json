@@ -17,5 +17,8 @@
   },
   "bin": {
     "org-file": "./server.js"
+  },
+  "publishConfig": {
+    "registry": "https://www.npmjs.com/package/github-together"
   }
 }
