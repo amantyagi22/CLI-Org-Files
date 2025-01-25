@@ -1,14 +1,18 @@
 # Use the official Node.js image as the base image
-FROM node:14
+FROM node:18.12
 
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
+# Copy package.json and pnpm-lock.yaml
 COPY package*.json ./
+COPY pnpm-lock.yaml ./
+
+# Install pnpm
+RUN npm install -g pnpm
 
 # Install dependencies
-RUN npm install
+RUN pnpm install
 
 # Copy the rest of the application code
 COPY . .
@@ -17,4 +21,4 @@ COPY . .
 EXPOSE 8080
 
 # Command to run the application
-CMD ["npm", "run", "organise"]
+CMD ["pnpm", "start"]
